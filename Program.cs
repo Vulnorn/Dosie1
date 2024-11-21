@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Reflection.Emit;
 
 namespace Dossier
 {
@@ -16,26 +15,30 @@ namespace Dossier
             bool isWork = true;
             int userChoice;
 
-            Dictionary<string, string> dossiers = new Dictionary<string, string>();
+            string[] fullNames = new string[0];
+            string[] post = new string[0];  
 
             while (isWork)
             {
                 Console.Clear();
-                Console.WriteLine($"\n{MenuConsoleAddDossier}. Добавить досье. \n\n{MenuConsoleOutputDossier}. Вывести все досье.\n\n {MenuConsoleDeliteDossier}. Удалить досье.\n\n{MenuConsoleExit}. Выход.");
+                Console.WriteLine($"\n{MenuConsoleAddDossier}. Добавить досье. " +
+                    $"\n{MenuConsoleOutputDossier}. Вывести все досье." +
+                    $"\n{MenuConsoleDeliteDossier}. Удалить досье." +
+                    $"\n{MenuConsoleExit}. Выход.");
                 userChoice = Convert.ToInt32(Console.ReadLine());
 
                 switch (userChoice)
                 {
                     case MenuConsoleAddDossier:
-                        AddDossier(dossiers);
+                        AddDossier(fullNames);
                         break;
 
                     case MenuConsoleOutputDossier:
-                        ShowAllDossiers(dossiers);
+                        ShowAllDossiers(fullNames);
                         break;
 
                     case MenuConsoleDeliteDossier:
-                        DeleteDossierByFullName(dossiers);
+                        DeleteDossierByFullName(fullNames);
                         break;
 
                     case MenuConsoleExit:
@@ -49,7 +52,7 @@ namespace Dossier
             }
         }
 
-        static void AddDossier(Dictionary<string, string> dossiers)
+        static void AddDossier( string [] dossiers)
         {
             string userCreateFullName;
             string userCreatePosition;
@@ -71,11 +74,11 @@ namespace Dossier
             }
         }
 
-        static void ShowAllDossiers(Dictionary<string, string> dossiers)
+        static void ShowAllDossiers(string[] dossiers)
         {
             Console.Clear();
 
-            if (dossiers.LongCount() == 0)
+            if (dossiers.Length == 0)
             {
                 ReportAnError("Досье пустое, заполните досье!");
             }
@@ -83,14 +86,14 @@ namespace Dossier
             {
                 foreach (var item in dossiers)
                 {
-                    Console.Write($"{item.Key} - {item.Value};");
+                    Console.Write($"{item} - {item};");
                 }
 
                 Console.ReadKey();
             }
         }
 
-        static void DeleteDossierByFullName(Dictionary<string, string> dossiers)
+        static void DeleteDossierByFullName(string[] dossiers)
         {
             Console.WriteLine($"Введите ФИО сотрудника, которого нужно удалить из досье");
             string userInputWord = Console.ReadLine().ToLower();
@@ -106,6 +109,7 @@ namespace Dossier
             {
                 ReportAnError("Нет такого сотрудника");
             }
+
         }
 
         static void ReportAnError(string causeOfError)
