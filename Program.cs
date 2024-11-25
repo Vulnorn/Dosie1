@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Xml.Linq;
 
 namespace Dossier
 {
@@ -53,9 +50,8 @@ namespace Dossier
                         break;
 
                     default:
-                        ReportAnError("");
+                        ReportError("");
                         break;
-
 
                 }
             }
@@ -63,24 +59,24 @@ namespace Dossier
 
         static void AddDossier(ref string[] fullNames, ref string[] post)
         {
-            string userCreateFullName;
-            string userCreatePosition;
+            string userInputFullName;
+            string userInputPosition;
 
             Console.Clear();
             Console.WriteLine($"Введите ФИО Сотрудника:");
-            userCreateFullName = Console.ReadLine().ToLower();
+            userInputFullName = Console.ReadLine().ToLower();
 
             Console.WriteLine($"Введите должность для этого сотрудника:");
-            userCreatePosition = Console.ReadLine().ToLower();
-            fullNames = EditElementArray(fullNames, userCreateFullName);
-            post = EditElementArray(post, userCreatePosition);
+            userInputPosition = Console.ReadLine().ToLower();
+            fullNames = AddElementArray(fullNames, userInputFullName);
+            post = AddElementArray(post, userInputPosition);
         }
 
         static void ShowAllDossiers(string[] fullNames, string[] post)
         {
             Console.Clear();
 
-            if (CheckingAbsenceEmptiness(fullNames))
+            if (IsAbsenceEmptiness(fullNames))
             {
                 for (int i = 0; i < fullNames.Length; i++)
                 {
@@ -94,12 +90,12 @@ namespace Dossier
 
         static void ShowAllLastNames(string[] fullNames, string[] post)
         {
-            if (CheckingAbsenceEmptiness(fullNames))
+            if (IsAbsenceEmptiness(fullNames))
             {
                 Console.Clear();
                 Console.WriteLine($"Введите Фамилию");
                 string userInputWord = Console.ReadLine().ToLower();
-                int showLastName = 0;
+                int quantityShowLastName = 0;
 
                 for (int i = 0; i < fullNames.Length; i++)
                 {
@@ -110,41 +106,43 @@ namespace Dossier
 
                     if (userInputWord == withLastName)
                     {
-                        Console.WriteLine($"{fullNames[i]}");
-                        showLastName++;
+                        Console.WriteLine($"{fullNames[i]} - {post[i]}");
+                        quantityShowLastName++;
                     }
                 }
 
-                if (showLastName == 0)
-                    ReportAnError("Нет таких фамилий");
+                if (quantityShowLastName == 0)
+                    ReportError("Нет таких фамилий");
             }
+
+            Console.ReadKey();
         }
 
         static void DeleteDossierByFullName(ref string[] fullNames, ref string[] post)
         {
-            if (CheckingAbsenceEmptiness(fullNames))
+            if (IsAbsenceEmptiness(fullNames))
             {
                 Console.WriteLine($"Введите ФИО сотрудника, которого нужно удалить из досье");
                 string userInputWord = Console.ReadLine().ToLower();
-                int index = 0;
+                int index;
 
-                if (FindElementArray(fullNames, userInputWord, ref index))
+                if (FindElementArray(fullNames, userInputWord, out index))
                 {
-                    fullNames = EditElementArray(fullNames, index);
-                    post = EditElementArray(post, index);
+                    fullNames = DeleteElementArray(fullNames, index);
+                    post = DeleteElementArray(post, index);
                 }
                 else
                 {
-                    ReportAnError("Нет такого сотрудника");
+                    ReportError("Нет такого сотрудника");
                 }
             }
         }
 
-        static bool CheckingAbsenceEmptiness(string[] fullNames)
+        static bool IsAbsenceEmptiness(string[] fullNames)
         {
             if (fullNames.Length == 0)
             {
-                ReportAnError("Досье пустое, заполните досье!");
+                ReportError("Досье пустое, заполните досье!");
                 return false;
             }
             else
@@ -153,14 +151,16 @@ namespace Dossier
             }
         }
 
-        static void ReportAnError(string causeOfError)
+        static void ReportError(string causeOfError)
         {
             Console.WriteLine($"Ошибка ввода. {causeOfError}");
             Console.ReadKey();
         }
 
-        static bool FindElementArray(string[] array, string element, ref int index)
+        static bool FindElementArray(string[] array, string element, out int index)
         {
+            index = 0;
+
             for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] == element)
@@ -173,7 +173,7 @@ namespace Dossier
             return false;
         }
 
-        static string[] EditElementArray(string[] array, string element)
+        static string[] AddElementArray(string[] array, string element)
         {
             string[] cacheArray = new string[array.Length + 1];
 
@@ -188,7 +188,7 @@ namespace Dossier
             return array;
         }
 
-        static string[] EditElementArray(string[] array, int index)
+        static string[] DeleteElementArray(string[] array, int index)
         {
             string[] cacheArray = new string[array.Length - 1];
 
