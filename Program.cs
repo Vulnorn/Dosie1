@@ -9,14 +9,13 @@ namespace Dossier
     {
         static void Main(string[] args)
         {
-            const int MenuConsoleAddDossier = 1;
-            const int MenuConsoleOutputDossier = 2;
-            const int MenuConsoleDeliteDossier = 3;
-            const int MenuConsoleOutputLastNames = 4;
-            const int MenuConsoleExit = 5;
+            const string ComandAddDossier = "1";
+            const string ComandOutputDossier = "2";
+            const string ComandDeliteDossier = "3";
+            const string ComandOutputLastNames = "4";
+            const string ComandExit = "5";
 
             bool isWork = true;
-            int userChoice;
 
             string[] fullNames = new string[0];
             string[] post = new string[0];
@@ -24,32 +23,32 @@ namespace Dossier
             while (isWork)
             {
                 Console.Clear();
-                Console.WriteLine($"\n{MenuConsoleAddDossier}. Добавить досье. " +
-                    $"\n{MenuConsoleOutputDossier}. Вывести все досье." +
-                    $"\n{MenuConsoleDeliteDossier}. Удалить досье." +
-                    $"\n{MenuConsoleOutputLastNames}. Показать всех сотрудников на фамили -" +
-                    $"\n{MenuConsoleExit}. Выход.");
-                userChoice = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine($"\n{ComandAddDossier}. Добавить досье. " +
+                    $"\n{ComandOutputDossier}. Вывести все досье." +
+                    $"\n{ComandDeliteDossier}. Удалить досье." +
+                    $"\n{ComandOutputLastNames}. Показать всех сотрудников на фамили -" +
+                    $"\n{ComandExit}. Выход.");
+                string userChoice = Console.ReadLine();
 
                 switch (userChoice)
                 {
-                    case MenuConsoleAddDossier:
-                        AddDossier(fullNames, post);
+                    case ComandAddDossier:
+                        AddDossier(ref fullNames, ref post);
                         break;
 
-                    case MenuConsoleOutputDossier:
+                    case ComandOutputDossier:
                         ShowAllDossiers(fullNames, post);
                         break;
 
-                    case MenuConsoleDeliteDossier:
-                        DeleteDossierByFullName(fullNames, post);
+                    case ComandDeliteDossier:
+                        DeleteDossierByFullName(ref fullNames, ref post);
                         break;
 
-                    case MenuConsoleExit:
+                    case ComandExit:
                         isWork = false;
                         break;
 
-                    case MenuConsoleOutputLastNames:
+                    case ComandOutputLastNames:
                         ShowAllLastNames(fullNames, post);
                         break;
 
@@ -62,7 +61,7 @@ namespace Dossier
             }
         }
 
-        static void AddDossier(string[] fullNames, string[] post)
+        static void AddDossier(ref string[] fullNames, ref string[] post)
         {
             string userCreateFullName;
             string userCreatePosition;
@@ -73,9 +72,8 @@ namespace Dossier
 
             Console.WriteLine($"Введите должность для этого сотрудника:");
             userCreatePosition = Console.ReadLine().ToLower();
-
-            ChangeElementArray(fullNames, userCreateFullName);
-            ChangeElementArray(post, userCreatePosition);
+            fullNames = ChangeElementArray(fullNames, userCreateFullName);
+            post = ChangeElementArray(post, userCreatePosition);
         }
 
         static void ShowAllDossiers(string[] fullNames, string[] post)
@@ -122,7 +120,7 @@ namespace Dossier
             }
         }
 
-        static void DeleteDossierByFullName(string[] fullNames, string[] post)
+        static void DeleteDossierByFullName(ref string[] fullNames, ref string[] post)
         {
             if (CheckingAbsenceEmptiness(fullNames))
             {
@@ -132,8 +130,8 @@ namespace Dossier
 
                 if (FindElementArray(fullNames, userInputWord, ref index))
                 {
-                    ChangeElementArray(fullNames, index);
-                    ChangeElementArray(post, index);
+                    fullNames = ChangeElementArray(fullNames, index);
+                    post = ChangeElementArray(post, index);
                 }
                 else
                 {
@@ -184,8 +182,9 @@ namespace Dossier
                 cacheArray[i] = array[i];
             }
 
-            cacheArray[cacheArray.Length] = element;
+            cacheArray[cacheArray.Length - 1] = element;
             array = cacheArray;
+
             return array;
         }
 
