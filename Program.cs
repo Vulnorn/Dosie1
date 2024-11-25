@@ -72,8 +72,8 @@ namespace Dossier
 
             Console.WriteLine($"Введите должность для этого сотрудника:");
             userCreatePosition = Console.ReadLine().ToLower();
-            fullNames = ChangeElementArray(fullNames, userCreateFullName);
-            post = ChangeElementArray(post, userCreatePosition);
+            fullNames = EditElementArray(fullNames, userCreateFullName);
+            post = EditElementArray(post, userCreatePosition);
         }
 
         static void ShowAllDossiers(string[] fullNames, string[] post)
@@ -130,8 +130,8 @@ namespace Dossier
 
                 if (FindElementArray(fullNames, userInputWord, ref index))
                 {
-                    fullNames = ChangeElementArray(fullNames, index);
-                    post = ChangeElementArray(post, index);
+                    fullNames = EditElementArray(fullNames, index);
+                    post = EditElementArray(post, index);
                 }
                 else
                 {
@@ -173,7 +173,7 @@ namespace Dossier
             return false;
         }
 
-        static string[] ChangeElementArray(string[] array, string element)
+        static string[] EditElementArray(string[] array, string element)
         {
             string[] cacheArray = new string[array.Length + 1];
 
@@ -188,7 +188,7 @@ namespace Dossier
             return array;
         }
 
-        static string[] ChangeElementArray(string[] array, int index)
+        static string[] EditElementArray(string[] array, int index)
         {
             string[] cacheArray = new string[array.Length - 1];
 
