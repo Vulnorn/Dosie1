@@ -71,19 +71,11 @@ namespace Dossier
             Console.WriteLine($"Введите ФИО Сотрудника:");
             userCreateFullName = Console.ReadLine().ToLower();
 
-            if (FindElementArray(fullNames, userCreateFullName))
-            {
-                ReportAnError("Такой Сотрудник уже есть.");
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine($"Введите должность для этого сотрудника:");
-                userCreatePosition = Console.ReadLine().ToLower();
+            Console.WriteLine($"Введите должность для этого сотрудника:");
+            userCreatePosition = Console.ReadLine().ToLower();
 
-                ChangeElementArray(fullNames, userCreateFullName);
-                ChangeElementArray(post, userCreatePosition);
-            }
+            ChangeElementArray(fullNames, userCreateFullName);
+            ChangeElementArray(post, userCreatePosition);
         }
 
         static void ShowAllDossiers(string[] fullNames, string[] post)
@@ -167,17 +159,6 @@ namespace Dossier
         {
             Console.WriteLine($"Ошибка ввода. {causeOfError}");
             Console.ReadKey();
-        }
-
-        static bool FindElementArray(string[] array, string element)
-        {
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (array[i] == element)
-                    return true;
-            }
-
-            return false;
         }
 
         static bool FindElementArray(string[] array, string element, ref int index)
