@@ -22,3 +22,5 @@ C:\Users\mixad\GitRepost\dosie\obj\Debug\Biblioteka.csproj.SuggestedBindingRedir
 C:\Users\mixad\GitRepost\dosie\obj\Debug\Biblioteka.csproj.CoreCompileInputs.cache
 C:\Users\mixad\GitRepost\dosie\obj\Debug\Biblioteka.exe
 C:\Users\mixad\GitRepost\dosie\obj\Debug\Biblioteka.pdb
+C:\Users\mixad\Source\Repos\Vulnorn\Dosie1\obj\Debug\Biblioteka.csproj.AssemblyReference.cache
+C:\Users\mixad\Source\Repos\Vulnorn\Dosie1\obj\Debug\Biblioteka.csproj.CoreCompileInputs.cache
